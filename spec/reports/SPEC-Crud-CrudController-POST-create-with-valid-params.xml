@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Crud::CrudController POST create with valid params" tests="3" time="0.06913095" failures="0" errors="0" skipped="0">
+  <testcase name="Crud::CrudController POST create with valid params creates a new User" time="0.010683707">
+  </testcase>
+  <testcase name="Crud::CrudController POST create with valid params assigns a newly created user as @user" time="0.051263335">
+  </testcase>
+  <testcase name="Crud::CrudController POST create with valid params redirects to the created user" time="0.006877784">
+  </testcase>
+  <system-out>
+  </system-out>
+  <system-err>
+  </system-err>
+</testsuite>

@@ -1,0 +1,104 @@
+<div class="flickr_pagination" style="text-align: left; float: left; width: 75%;">
+  Items per page:
+  <%= select_tag :per_page, options_for_select([5, 10, 25, 50, 100], (controller.params[:per_page] ? controller.params[:per_page].to_i : 10)) %>
+  <br /><br />
+  <div id="upper_pagination_overlay" class="pagination_overlay" style="height: 16px;">
+    <%= will_paginate @klass_data %>
+    <%= hidden_field_tag :page, (controller.params[:page] ? controller.params[:page] : 1) %>
+  </div>
+  <br />
+  <%= page_entries_info @klass_data %>
+  <br /><br />
+</div>
+<div style="text-align: right; float: right; width: 20%; min-width: 250px;">
+  <%= form_tag '#', :id => 'search_form', :method => :get do %>
+    Search:
+    <%= text_field_tag :search, ((controller.params[:search].nil? || controller.params[:search].empty?) ? @search_prompt : controller.params[:search]),
+      :value => ((controller.params[:search].nil? || controller.params[:search].empty?) ? @search_prompt : controller.params[:search]),
+      :style => ((controller.params[:search].nil? || controller.params[:search].empty?) ? 'color:#777;' : ''),
+      :onfocus => "if(this.value == '#{@search_prompt}') {this.style.color=''; this.value = '';}",
+      :onblur => "if(this.value == '') {this.style.color='#777'; this.value = '#{@search_prompt}';}"
+    -%>
+    <%= image_submit_tag 'crud/search-icon.png', { :height => '16' } %>
+    <br />
+    <% if false %>
+      <%= check_box_tag :advanced_search, nil, ((controller.params[:advanced_search]=='true') ? true : false) %> Advanced search
+    <% end %>
+  <% end %>
+</div>
+<div style="clear: both;"/>
+<br />
+
+<% if @klass_data.count > 0 %>
+  <table id="klass_table">
+    <thead>
+      <tr>
+        <% if false %>
+          <th></th>
+        <% end %>
+        <% @visible_attributes.each do |attribute| %>
+          <th>
+            <%= label(@klass_info[:name].to_sym, attribute[:column_name].to_sym) %>
+            <% if false %>
+              <%= "(#{attribute[:column_type]})" %>
+              <%= "#{attribute[:association].to_s} #{attribute[:association_class]}" if attribute[:association] %>
+            <% end %>
+          </th>
+        <% end %>
+        <% if is_allowed_to_view? %>
+          <th></th>
+        <% end %>
+        <% if is_allowed_to_update? %>
+          <th></th>
+          <th></th>
+          <th></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @klass_data.each do |row| %>
+        <tr style="background-color:<%= cycle("lightblue", "lightgrey") %>;">
+          <% if false %>
+            <td><%= check_box 'selected_items', row.attributes['id'], :id => nil %></td>
+          <% end %>
+          <% @visible_attributes.each do |attribute| %>
+            <td>
+              <%= render_attribute_value_and_custom_fields(attribute, row, @klass_info) %>
+            </td>
+          <% end %>
+          <% if is_allowed_to_view? %>
+            <td><%= link_to('Show', show_path(:class_name => @klass_info[:name], :id => row.id)) if ::Crud::KlassInfo.primary_key_is_id?(@klass_info[:class]) %></td>
+          <% end %>
+          <% if is_allowed_to_update? %>
+            <td><%= link_to('Edit', edit_path(:class_name => @klass_info[:name], :id => row.id)) if ::Crud::KlassInfo.primary_key_is_id?(@klass_info[:class]) %></td>
+            <td><%= link_to('Delete', delete_path(:class_name => @klass_info[:name], :id => row.id), :data => { :confirm => "Are you sure you want to delete '#{row}'?" }, :method => :delete) if ::Crud::KlassInfo.primary_key_is_id?(@klass_info[:class]) %></td>
+            <td><%= link_to('Destroy', destroy_path(:class_name => @klass_info[:name], :id => row.id), :data => { :confirm => "Are you sure you want to destroy '#{row}'?" }, :method => :delete) if ::Crud::KlassInfo.primary_key_is_id?(@klass_info[:class]) %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br />
+
+  <div class="flickr_pagination" style="text-align: left;">
+    <%= page_entries_info @klass_data %>
+    <br /><br />
+    <div id="lower_pagination_overlay" class="pagination_overlay" style="height: 16px;">
+      <%= will_paginate @klass_data %>
+    </div>
+  </div>
+  <div style="clear: both;"/>
+  <br />
+<% end # @klass_data.count > 0 %>
+
+<% @klass_info.global_custom_fields(controller.action_name.to_sym).each do |field| %>
+  <%= render field[:partial], {field[:record_data_parameter].to_sym => @klass_data}.merge(field[:additional_partial_parameters]) %><br/>
+<% end %>
+<div style="clear: both;"/>
+
+<% if is_allowed_to_update? %>
+  <%= link_to "New #{@klass_info[:name]}", new_path(:class_name => @klass_info[:name]) %>
+<% end %>
+<div style="clear: both;"/>
+<br />

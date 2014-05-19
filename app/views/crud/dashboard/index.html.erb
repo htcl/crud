@@ -1,0 +1,16 @@
+<h1>CRUD Dashboard</h1>
+<% if false %>
+  <p>Find me in app/views/crud/dashboard/index.html.erb</p>
+<% end %>
+<h2>Select the class you wish to manipulate</h2>
+<%= select_tag 'klass_list', options_for_select_tag, :prompt => 'Select a class' %><br/>
+<h2>Model path:</h2>
+<% Crud.model_path.each do |path_element| %>
+  <%= "#{path_element}" %><br/>
+<% end %>
+<% if false %>
+  <h2>Class list:</h2>
+  <% @klass_list.all.each do |klass| %>
+    <%= "#{klass.to_s}" %><br/>
+  <% end %>
+<% end %>

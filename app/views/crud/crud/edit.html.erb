@@ -1,0 +1,17 @@
+<h1><%= "Editing #{@klass_info[:name]}" %></h1>
+
+<%= form_for(
+  @klass_data,
+  :as => @klass_info[:name_as_sym],
+  :url => update_path(:class_name => @klass_info[:name], :id => @klass_data.id),
+  :html => {:multipart => 'true'},
+  :method => :put
+  ) do |f| %>
+  <%= render 'form', :f => f %>
+<% end %>
+
+<% if ::Crud::KlassInfo.primary_key_is_id?(@klass_info[:class]) %>
+  <%= link_to 'Show', show_path(:class_name => @klass_info[:name], :id => @klass_data.id) %> |
+<% end %>
+
+<%= link_to "Back (List all #{@klass_info[:name].pluralize})", index_path(:class_name => @klass_info[:name]) %>

@@ -1,0 +1,13 @@
+<h1><%= "New #{@klass_info[:name]}" %></h1>
+
+<%= form_for(
+  @klass_data,
+  :as => @klass_info[:name_as_sym],
+  :url => create_path(:class_name => @klass_info[:name]),
+  :html => {:multipart => 'true'},
+  :method => :post
+  ) do |f| %>
+  <%= render 'form', :f => f %>
+<% end %>
+
+<%= link_to "Back (List all #{@klass_info[:name].pluralize})", index_path(:class_name => @klass_info[:name]) %>

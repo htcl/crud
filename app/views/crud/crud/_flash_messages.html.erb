@@ -1,0 +1,10 @@
+<%= stylesheet_link_tag 'crud/flash_notices', :media => 'screen' %>
+<div class="clearthis">&nbsp;</div>
+<% flash.each do |type, value| %>
+  <% unless flash.now[type.to_sym].blank? %>
+    <div id='flash-<%="#{type.to_s}"%>' class='flash_message flash_<%="#{type.to_s}"%>' >
+      <p><%= "#{value}" %></p>
+    </div>
+    <div class="clearthis">&nbsp;</div>
+  <% end %>
+<% end %>

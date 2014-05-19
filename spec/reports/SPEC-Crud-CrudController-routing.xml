@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Crud::CrudController routing" tests="8" time="0.01278738" failures="0" errors="0" skipped="0">
+  <testcase name="Crud::CrudController routing routes to #index" time="0.004150095">
+  </testcase>
+  <testcase name="Crud::CrudController routing routes to #new" time="0.001266651">
+  </testcase>
+  <testcase name="Crud::CrudController routing routes to #show" time="0.001159623">
+  </testcase>
+  <testcase name="Crud::CrudController routing routes to #edit" time="0.001184175">
+  </testcase>
+  <testcase name="Crud::CrudController routing routes to #create" time="0.001037354">
+  </testcase>
+  <testcase name="Crud::CrudController routing routes to #update" time="0.001066171">
+  </testcase>
+  <testcase name="Crud::CrudController routing routes to #delete" time="0.001179616">
+  </testcase>
+  <testcase name="Crud::CrudController routing routes to #destroy" time="0.001043404">
+  </testcase>
+  <system-out>
+  </system-out>
+  <system-err>
+  </system-err>
+</testsuite>

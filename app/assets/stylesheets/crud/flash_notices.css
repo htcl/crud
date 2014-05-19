@@ -1,0 +1,19 @@
+.flash_message {
+    text-align: center;
+}
+
+.flash_alert {
+    color: red;
+}
+
+.flash_error {
+    color: red;
+}
+
+.flash_notice {
+    color: black;
+}
+
+.flash_info {
+    color: gray;
+}

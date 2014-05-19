@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CRUD</title>
+    <%= stylesheet_link_tag    "crud/application", :media => "all" %>
+    <%= javascript_include_tag "crud/application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body class="<%= (@klass_info ? 'crud_' + @klass_info[:name_as_sym].to_s : params[:controller].gsub('/','_')) %>">
+    <%= render 'crud/crud/flash_messages' %>
+    <%= yield %>
+  </body>
+</html>

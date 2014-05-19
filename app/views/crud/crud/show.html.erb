@@ -1,0 +1,69 @@
+<%= render 'error_messages', :model => @klass_data %>
+
+<% @visible_attributes.each do |attribute| %>
+  <p>
+    <b><%= label(@klass_info[:name].to_sym, attribute[:column_name].to_sym) %>:</b>
+    <%= render_attribute_value_and_custom_fields(attribute, @klass_data, @klass_info) %>
+  </p>
+<% end %>
+
+<br/>
+
+<% unless @klass_info[:has_one].empty? %>
+  <b>Has one:</b><br/>
+  <% @klass_info[:has_one].each do |association| %>
+    <% association_value = @klass_data.send("#{association[:association_name]}") %>
+    <%= "#{association[:association_name]}" %>
+    <% if association_value && ::Crud::KlassInfo.primary_key_is_id?(association_value.class) %>
+      [<%= link_to("#{association_value}", show_path(:class_name => association_value.class.name, :id => association_value.id)) %>]
+    <% end %>
+    <br/>
+  <% end %>
+<% end %>
+
+<% unless @klass_info[:has_many].empty? %>
+  <b>Has many:</b><br/>
+  <% @klass_info[:has_many].each do |association| %>
+    <% association_values = @klass_data.send("#{association[:association_name]}") %>
+    <%= "#{association[:association_name]}" %>
+    <% if association_values %>
+      <% association_values.each do |association_value| %>
+        <% if ::Crud::KlassInfo.primary_key_is_id?(association_value.class) %>
+          [<%= link_to("#{association_value}", show_path(:class_name => association_value.class.name, :id => association_value.id)) %>]
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= "(0)" %>
+    <% end %>
+    <br/>
+  <% end %>
+<% end %>
+
+<% unless @klass_info[:has_and_belongs_to_many].empty? %>
+  <b>Has and belongs to many:</b><br/>
+  <% @klass_info[:has_and_belongs_to_many].each do |association| %>
+    <% association_values = @klass_data.send("#{association[:association_name]}") %>
+    <%= "#{association[:association_name]}" %>
+    <% if association_values %>
+      <% association_values.each do |association_value| %>
+        <% if ::Crud::KlassInfo.primary_key_is_id?(association_value.class) %>
+          [<%= link_to("#{association_value}", show_path(:class_name => association_value.class.name, :id => association_value.id)) %>]
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= "(0)" %>
+    <% end %>
+    <br/>
+  <% end %>
+<% end %>
+
+<br/>
+
+<% @klass_info.global_custom_fields(controller.action_name.to_sym).each do |field| %>
+  <%= render field[:partial], {field[:record_data_parameter].to_sym => @klass_data}.merge(field[:additional_partial_parameters]) %><br/>
+<% end %>
+
+<% if is_allowed_to_update? %>
+  <%= link_to 'Edit', edit_path(:class_name => @klass_info[:name], :id => @klass_data.id) %> |
+<% end %>
+<%= link_to "Back (List all #{@klass_info[:name].pluralize})", index_path(:class_name => @klass_info[:name]) %>

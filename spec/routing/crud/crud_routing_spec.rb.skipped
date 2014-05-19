@@ -1,0 +1,44 @@
+require "spec_helper"
+
+module Crud
+  describe CrudController do
+    describe "routing" do
+
+      before(:each) { @routes = ::Crud::Engine.routes }
+
+      it "routes to #index" do
+        expect(:get => "/model/User").to route_to(:controller => "crud", :action => "index", :class_name => 'User')
+        get("/model/User").should route_to("crud/crud#index", :class_name => 'User')
+      end
+
+      it "routes to #new" do
+        get("/model/User/new").should route_to("crud/crud#new", :class_name => 'User')
+      end
+
+      it "routes to #show" do
+        get("/model/User/1").should route_to("crud/crud#show", :class_name => 'User', :id => "1")
+      end
+
+      it "routes to #edit" do
+        get("/model/User/1/edit").should route_to("crud/crud#edit", :class_name => 'User', :id => "1")
+      end
+
+      it "routes to #create" do
+        post("/model/User").should route_to("crud/crud#create", :class_name => 'User')
+      end
+
+      it "routes to #update" do
+        put("/model/User/1").should route_to("crud/crud#update", :class_name => 'User', :id => "1")
+      end
+
+      it "routes to #delete" do
+        delete("/model/User/1/delete").should route_to("crud/crud#delete", :class_name => 'User', :id => "1")
+      end
+
+      it "routes to #destroy" do
+        delete("/model/User/1").should route_to("crud/crud#destroy", :class_name => 'User', :id => "1")
+      end
+
+    end
+  end
+end

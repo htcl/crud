@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Crud::DashboardController GET 'index'" tests="1" time="0.007103948" failures="0" errors="0" skipped="0">
+  <testcase name="Crud::DashboardController GET 'index' returns http success" time="0.00690258">
+  </testcase>
+  <system-out>
+  </system-out>
+  <system-err>
+  </system-err>
+</testsuite>

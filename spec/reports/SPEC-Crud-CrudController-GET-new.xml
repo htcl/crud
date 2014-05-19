@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Crud::CrudController GET new" tests="1" time="0.006070961" failures="0" errors="0" skipped="0">
+  <testcase name="Crud::CrudController GET new assigns a new user as @user" time="0.005820777">
+  </testcase>
+  <system-out>
+  </system-out>
+  <system-err>
+  </system-err>
+</testsuite>

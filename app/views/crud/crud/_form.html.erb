@@ -1,0 +1,22 @@
+<%= render 'error_messages', :model => @klass_data %>
+<div class="actions">
+  <%= f.submit %>
+</div>
+<% @visible_attributes.each do |attribute| %>
+  <% unless ['id','created_at', 'updated_at'].include?(attribute[:column_name]) %>
+    <div class="field">
+      <%= f.label attribute[:column_name].to_sym %><br />
+      <% custom_fields = @klass_info.custom_fields(attribute[:column_name], controller.action_name.to_sym) %>
+      <% custom_fields_contain_a_replacement = @klass_info.custom_fields_contain_a_replacement(custom_fields) %>
+      <% unless custom_fields_contain_a_replacement %>
+        <%= edit_field_for_attribute(@klass_info, @klass_data, attribute, f).html_safe %>
+      <% end %>
+      <% custom_fields.each do |field| %>
+        <%= render field[:partial], {field[:record_data_parameter].to_sym => @klass_data}.merge(field[:additional_partial_parameters]) %><br/>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+<div class="actions">
+  <%= f.submit %>
+</div>

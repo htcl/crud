@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Crud::CrudController POST create with invalid params" tests="2" time="0.009842938" failures="0" errors="0" skipped="0">
+  <testcase name="Crud::CrudController POST create with invalid params assigns a newly created but unsaved user as @user" time="0.005288794">
+  </testcase>
+  <testcase name="Crud::CrudController POST create with invalid params re-renders the 'new' template" time="0.004297098">
+  </testcase>
+  <system-out>
+  </system-out>
+  <system-err>
+  </system-err>
+</testsuite>
