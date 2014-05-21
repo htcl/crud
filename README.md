@@ -96,3 +96,7 @@ Start and browse to your application url '/crud'
 
     http://localhost:3000/crud
 
+## Examples
+
+See the test application under spec/dummy
+
