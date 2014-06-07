@@ -8,7 +8,7 @@ gemspec
 if RUBY_VERSION =~ /1.8/
   gem 'rails', '~> 3.2.14'
 else
-  gem 'rails', '~> 4.0.1'
+  gem 'rails'
   gem 'protected_attributes'
 end
 
@@ -22,13 +22,13 @@ gem 'json'
 
 # Gems used only for assets and not required in production environments by default.
 group :assets do
-  gem 'sass-rails' #, '~> 3.2.5'
-  gem 'coffee-rails' #, '~> 3.2.2'
+  gem 'sass-rails'
+  gem 'coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
 
-  gem 'uglifier' #, '>= 1.3.0'
+  gem 'uglifier'
 end
 
 # jquery-rails is used by the dummy application
@@ -61,65 +61,30 @@ end
 group :development do
 
   if defined?(JRUBY_VERSION)
-    gem 'activerecord-oracle_enhanced-adapter'
-    gem 'activerecord-jdbc-adapter'
-    gem 'jdbc-jtds'
-
-    gem 'activerecord-jdbcpostgresql-adapter'
-    gem 'activerecord-jdbc-adapter'
-    gem 'jdbc-postgres'
-
-    gem 'activerecord-jdbcmysql-adapter'
-    gem 'activerecord-jdbc-adapter'
-    gem 'jdbc-mysql'
-
     gem 'activerecord-jdbcsqlite3-adapter'
     gem 'activerecord-jdbc-adapter'
     gem 'jdbc-sqlite3'
   else
-    gem 'activerecord-oracle_enhanced-adapter'
-    if RUBY_VERSION =~ /1.8/
-      gem 'ruby-oci8', '2.1.5'
-    else
-      gem 'ruby-oci8'
-    end
-
-    if (RbConfig::CONFIG['target_os'] == 'linux') && (`cat /etc/issue`.include?('CentOS release 5'))
-      # The latest version which is known to be usable on CentOS 5
-      gem 'pg', '~> 0.12.2'
-    else
-      if RUBY_VERSION =~ /1.8/
-        gem 'pg', '0.14.0'
-      else
-        gem 'pg'
-      end
-    end
-    gem 'pg_comment'
-    ##gem 'postgres', '~> 0.7.9.2008.01.28'
-
-    gem 'mysql' #, '~> 2.8.1'
-
-    gem 'sqlite3' #, '~> 1.3.4'
-    #gem 'sqlite3-ruby', '~> 1.2.5'
+    gem 'sqlite3'
   end
 
-  gem 'spork' #, '~> 0.9.0'
-  gem 'spork-testunit' #, '~> 0.0.8'
+  gem 'spork'
+  gem 'spork-testunit'
   gem 'spork-rails'
 
   if RUBY_VERSION =~ /1.8/
     gem 'guard', '~> 1.8.2'
   else
-    gem 'guard', '>= 0.6.2'
+    gem 'guard'
   end
-  gem 'guard-bundler', '>= 0.1.3'
-  gem 'guard-rails', '>= 0.1.0'
-  gem 'guard-livereload', '>= 0.4.0'
-  gem 'guard-test', '>= 0.4.3'
-  gem 'guard-rspec', '>= 0.6.0'
-  gem 'guard-cucumber', '>= 0.7.5'
-  gem 'guard-spork', '>= 0.8.0'
-  gem 'rack-livereload', '>= 0.3.4'
+  gem 'guard-bundler'
+  gem 'guard-rails'
+  gem 'guard-livereload'
+  gem 'guard-test'
+  gem 'guard-rspec'
+  gem 'guard-cucumber'
+  gem 'guard-spork'
+  gem 'rack-livereload'
 
   unless defined?(JRUBY_VERSION)
     gem 'ruby-prof', '~> 0.10.8'
@@ -140,10 +105,10 @@ group :development do
 
   gem 'railroady'
   gem 'rails-erd'
-  gem 'warbler', '~> 1.3.4'
-  gem 'net-ssh', '~> 2.1.4'
-  gem 'net-scp', '~> 1.0.4'
-  gem 'capistrano', '~> 2.6.0'
+  gem 'warbler'
+  gem 'net-ssh'
+  gem 'net-scp'
+  gem 'capistrano'
 
   gem 'webrick', '1.3.1'
 
@@ -163,29 +128,49 @@ group :development, :test do
   #gem 'rcov', '~> 0.9.9'
   if RUBY_VERSION =~ /1.8/
     gem 'simplecov', '~> 0.8.2', :require => false, :group => :test
+    gem 'shoulda-matchers', '~> 1.2.0'
   else
     gem 'simplecov', :require => false, :group => :test
+    gem 'shoulda-matchers'
   end
   gem 'simplecov-rcov', :require => false, :group => :test
   gem 'rspec-rails', '~> 2.14.0'
-  gem 'shoulda-matchers', '~> 1.2.0'
   if RUBY_VERSION =~ /1.8/
     gem 'factory_girl_rails', '~> 1.7.0'
   else
-    gem 'factory_girl_rails', '~> 4.2.1'
+    gem 'factory_girl_rails'
   end
-  gem 'faker', '>= 1.2.0'
-  gem 'database_cleaner', '~> 1.0.1'
-  gem "email_spec", ">= 1.2.1"
+  gem 'faker'
+  gem 'database_cleaner'
+  #gem 'email_spec'
 
-  #gem 'cucumber', '~> 0.9.4'
-  gem 'cucumber-rails', '>= 1.3.0', :require => false
-  gem 'cucumber', '~> 1.2.5'
-  gem "launchy", "~> 2.0.5"
-  gem "capybara", "~> 2.0.3"
-  #gem 'gherkin', '~> 2.2.9'
-  #gem 'webrat', '~> 0.7.3'
-  gem 'ci_reporter', '~> 1.7.0'
+  gem 'cucumber-rails', :require => false
+  gem 'cucumber'
+  gem 'launchy'
+  gem 'capybara'
+  gem 'ci_reporter'
+
+  # RMagick
+  if defined?(JRUBY_VERSION)
+    gem 'rmagick4j', '~> 0.3.7'
+  else
+    if RbConfig::CONFIG['target_os'] == 'linux'
+      if `cat /etc/issue`.include? 'CentOS release 5'
+        # The latest version which is known to be usable on CentOS 5
+        gem 'rmagick', '~> 1.15.17'
+      else
+        gem 'rmagick', '~> 2.13.1'
+      end
+    else
+      # HOWTO:
+      # 1) Install ImageMagick in a top-level directory
+      # 2) Set environment variables
+      #    set CPATH=C:\ImageMagick-6.7.3-Q16\include
+      #    set LIBRARY_PATH=C:\ImageMagick-6.7.3-Q16\lib
+      # 3) gem install rmagick -v 2.13.1
+      gem 'rmagick', '~> 2.13.1'
+    end
+  end
 
   ## Other test gems should be added here ##
 end
