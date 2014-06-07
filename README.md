@@ -106,7 +106,20 @@ Start and browse to your application url '/crud'
 
 See the test application under spec/dummy
 
+## Links
+
+* Homepage: <https://github.com/htcl/crud>
+* Source code: <https://github.com/htcl/crud>
+* RubyGem: <https://rubygems.org/gems/crud>
+* Travis CI: <https://travis-ci.org/htcl/crud>
+
+## Authors
+
+* Everard Brown <mailto:everard.brown@htcl.eu>
+
 ## Licence
+
+Copyright (c) 2013-2014 Everard Brown
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
