@@ -24,4 +24,4 @@ script:
   rake
 
 install:
-  gem install --prerelease --development crud
+  bundle install
