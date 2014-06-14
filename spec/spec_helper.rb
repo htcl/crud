@@ -69,7 +69,7 @@ Spork.prefork do
 
   require 'factory_girl_rails'
   require 'database_cleaner'
-  require 'shoulda/matchers/integrations/rspec'
+  #require 'shoulda/matchers/integrations/rspec'
 
   ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 

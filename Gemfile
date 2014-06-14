@@ -5,7 +5,7 @@ source "http://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 
-if RUBY_VERSION =~ /1.8/
+if RUBY_VERSION.include?('1.8')
   gem 'rails', '~> 3.2.14'
 else
   gem 'rails'
@@ -52,7 +52,7 @@ end
 # gem 'ruby-debug'
 
 # Limit some gem versions for 1.8.7 compatibility
-if RUBY_VERSION =~ /1.8/
+if RUBY_VERSION.include?('1.8')
   gem 'nokogiri', '~> 1.5.9'
   gem 'rubyzip', '0.9.9'
 end
@@ -72,7 +72,7 @@ group :development do
   gem 'spork-testunit'
   gem 'spork-rails'
 
-  if RUBY_VERSION =~ /1.8/
+  if RUBY_VERSION.include?('1.8')
     gem 'guard', '~> 1.8.2'
   else
     gem 'guard'
@@ -126,7 +126,7 @@ group :development, :test do
   #end
 
   #gem 'rcov', '~> 0.9.9'
-  if RUBY_VERSION =~ /1.8/
+  if RUBY_VERSION.include?('1.8')
     gem 'simplecov', '~> 0.8.2', :require => false, :group => :test
     gem 'shoulda-matchers', '~> 1.2.0'
   else
@@ -135,10 +135,12 @@ group :development, :test do
   end
   gem 'simplecov-rcov', :require => false, :group => :test
   gem 'rspec-rails', '~> 2.14.0'
-  if RUBY_VERSION =~ /1.8/
+  if RUBY_VERSION.include?('1.8')
     gem 'factory_girl_rails', '~> 1.7.0'
+    gem 'capybara', '~> 2.0.3'
   else
     gem 'factory_girl_rails'
+    gem 'capybara'
   end
   gem 'faker'
   gem 'database_cleaner'
@@ -147,7 +149,6 @@ group :development, :test do
   gem 'cucumber-rails', :require => false
   gem 'cucumber'
   gem 'launchy'
-  gem 'capybara'
   gem 'ci_reporter'
 
   # RMagick

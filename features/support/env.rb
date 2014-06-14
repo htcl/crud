@@ -9,8 +9,8 @@ require 'simplecov'
 
 # Stop test/unit from starting during a cucumber run
 if RUBY_VERSION =~ /1.(8|9)/
-  require 'test/unit/testresult'
-  Test::Unit.run = true
+  #require 'test/unit/testresult'
+  #Test::Unit.run = true
 end
 
 # Added this as explained in: http://bit.ly/uJv9M7

@@ -21,7 +21,7 @@ matrix:
     true
 
 script:
-  rake
+  rake ci:all
 
 install:
   bundle install
