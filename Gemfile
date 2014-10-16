@@ -57,6 +57,19 @@ if RUBY_VERSION.include?('1.8')
 end
 
 # Bundle gems which are only used in development mode:
+group :debug do
+  if RUBY_VERSION.to_f > 1.9
+    gem 'debugger' unless defined?(JRUBY_VERSION)
+  end
+
+  #if RUBY_VERSION.include?('1.9')
+  #  gem 'ruby-debug19'
+  #else
+  #  gem 'ruby-debug'
+  #end
+end
+
+# Bundle gems which are only used in development mode:
 group :development do
 
   if defined?(JRUBY_VERSION)
@@ -66,16 +79,6 @@ group :development do
   else
     gem 'sqlite3'
   end
-
-  if RUBY_VERSION.to_f > 1.9
-    gem 'debugger' unless (defined?(JRUBY_VERSION)||ENV['TRAVIS']=='true')
-  end
-
-  #if RUBY_VERSION.include?('1.9')
-  #  gem 'ruby-debug19'
-  #else
-  #  gem 'ruby-debug'
-  #end
 
   gem 'spork'
   gem 'spork-testunit'
