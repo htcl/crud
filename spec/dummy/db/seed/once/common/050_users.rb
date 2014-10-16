@@ -3,7 +3,8 @@
 u = User.create(
   :username => 'user1',
   :email => 'user1@example.com',
-  :password => 'password'
+  :password => 'password',
+  :confirmed_at => Time.now,
 )
 
 UserProfile.create(
@@ -32,7 +33,8 @@ u.roles << Role.find_by_name('editor')
 u = User.create(
   :username => 'user2',
   :email => 'user2@example.com',
-  :password => 'password'
+  :password => 'password',
+  :confirmed_at => Time.now,
 )
 
 UserProfile.create(

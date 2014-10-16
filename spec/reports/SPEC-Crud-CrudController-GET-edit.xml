@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Crud::CrudController GET edit" tests="1" time="0.01015338" failures="0" errors="0" skipped="0">
-  <testcase name="Crud::CrudController GET edit assigns the requested user as @user" time="0.009900696">
-  </testcase>
-  <system-out>
-  </system-out>
-  <system-err>
-  </system-err>
-</testsuite>

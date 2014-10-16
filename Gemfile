@@ -12,7 +12,6 @@ else
   gem 'protected_attributes'
 end
 
-
 if defined?(JRUBY_VERSION)
   gem 'jruby-openssl'
   gem 'jruby-rack'
@@ -32,8 +31,8 @@ group :assets do
 end
 
 # jquery-rails is used by the dummy application
-#gem 'jquery-rails'
-#gem 'jquery-ui-rails'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 #gem 'jquery-datatables-rails'
 
 gem 'turbolinks'
@@ -87,7 +86,7 @@ group :development do
   gem 'rack-livereload'
 
   unless defined?(JRUBY_VERSION)
-    gem 'ruby-prof', '~> 0.10.8'
+    gem 'ruby-prof' #, '~> 0.10.8'
   end
 
   case RbConfig::CONFIG['target_os']
@@ -119,6 +118,9 @@ end
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
+  if RUBY_VERSION.to_f > 1.9
+    gem 'debugger' unless defined?(JRUBY_VERSION)
+  end
   #if RUBY_VERSION.include?('1.9')
   #  gem 'ruby-debug19'
   #else
@@ -134,7 +136,13 @@ group :development, :test do
     gem 'shoulda-matchers'
   end
   gem 'simplecov-rcov', :require => false, :group => :test
-  gem 'rspec-rails', '~> 2.14.0'
+  if RUBY_VERSION.include?('1.8')
+    gem 'rspec-rails', '~> 2.14.0'
+  elsif RUBY_VERSION.include?('1.9')
+    gem 'rspec-rails', '~> 2.14.0'
+  else
+    gem 'rspec-rails'
+  end
   if RUBY_VERSION.include?('1.8')
     gem 'factory_girl_rails', '~> 1.7.0'
     gem 'capybara', '~> 2.0.3'
@@ -149,7 +157,7 @@ group :development, :test do
   gem 'cucumber-rails', :require => false
   gem 'cucumber'
   gem 'launchy'
-  gem 'ci_reporter'
+  gem 'ci_reporter', '~> 1.9.2'
 
   # RMagick
   if defined?(JRUBY_VERSION)

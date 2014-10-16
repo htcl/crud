@@ -8,7 +8,7 @@ guard 'bundler' do
   # watch(/^.+\.gemspec/)
 end
 
-guard 'rails', :root => 'spec/dummy' do
+guard 'rails', :root => 'spec/dummy', :debugger => true do
   watch(%r{.*\.gemspec})
   watch('Gemfile.lock')
   watch(%r{^(config|lib)/.*})
@@ -58,7 +58,8 @@ guard :test do
   watch('app/controllers/application_controller.rb') { ["test/functional", "test/integration"] }
 end
 
-guard 'rspec', :version => 2, :all_on_start => true, :cli => '--drb --profile --order random' do
+#guard 'rspec', :version => 2, :all_on_start => true, :cli => '--drb --profile --order random' do
+guard :rspec, :all_on_start => true, :cmd => 'bundle exec rspec --profile --order random' do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }

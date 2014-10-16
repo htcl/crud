@@ -1,7 +1,7 @@
-require_dependency "crud/application_controller"
+require_dependency "crud/crud_base_controller"
 
 module Crud
-  class CrudController < ApplicationController
+  class CrudController < CrudBaseController
     around_filter :catch_not_found
 
     before_filter :is_allowed_to_view?, :only => [:index, :show]
@@ -11,30 +11,26 @@ module Crud
 
     # GET
     def index
-      @search_prompt = 'Enter search term...'
+      @search_prompt = I18n.t(:search_prompt)
 
-      unless(@using_jquery_datatables)
-        per_page = (params[:per_page]) ? params[:per_page].to_i : 10;
+      page = (params[:page]) ? params[:page].to_i : 1
+      per_page = (params[:per_page]) ? params[:per_page].to_i : 10
 
-        if( params[:search] && !params[:search].empty? && params[:search] != @search_prompt)
-          where_clause = ''
-          @visible_attributes.each do |attribute|
-            where_clause += "LOWER(#{attribute[:column_name]}) LIKE '%#{params[:search].downcase}%' OR " if attribute[:column_data_type] == :string
-          end
-          where_clause.sub!(/ OR $/,'')
-        else
-          where_clause = nil
+      if( params[:search] && !params[:search].empty? && params[:search] != @search_prompt)
+        where_clause = ''
+        @visible_attributes.each do |attribute|
+          where_clause += "LOWER(#{attribute[:column_name]}) LIKE '%#{params[:search].downcase}%' OR " if attribute[:column_data_type] == :string
         end
+        where_clause.sub!(/ OR $/,'')
+      else
+        where_clause = nil
       end
 
-      if @klass_info.primary_key(@klass_info[:class])
-        @klass_data = @using_jquery_datatables ?
-          @klass_info[:class].order("#{@klass_info.primary_key(@klass_info[:class])} ASC").all :
-          @klass_info[:class].where(where_clause).paginate(:page => params[:page], :per_page => per_page).order("#{@klass_info.primary_key(@klass_info[:class])} ASC")
+      primary_key_name = @klass_info.primary_key(@klass_info[:class])
+      if primary_key_name
+        @klass_data = @klass_info[:class].where(where_clause).paginate(:page => page, :per_page => per_page).order("#{primary_key_name} ASC")
       else
-        @klass_data = @using_jquery_datatables ?
-          @klass_info[:class].all :
-          @klass_info[:class].where(where_clause).paginate(:page => params[:page], :per_page => per_page)
+        @klass_data = @klass_info[:class].where(where_clause).paginate(:page => page, :per_page => per_page)
       end
 
       respond_to do |format|
@@ -147,7 +143,6 @@ module Crud
     def catch_not_found
       yield
     rescue ActiveRecord::RecordNotFound
-      #render :text => "#{@klass_info[:name]} record with id=[#{params[:id]}] not found"
       redirect_to back_url, :flash => { :error => "#{@klass_info[:name]} record with id=[#{params[:id]}] not found" }
     end
   end

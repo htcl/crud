@@ -1,5 +1,5 @@
 module Crud
-  module ApplicationHelper
+  module CrudHelper
 
     def options_for_select_tag
       options_for_select(@klass_list.all.collect{|klass| [klass.to_s, index_path(:class_name => klass)]})
@@ -48,9 +48,11 @@ module Crud
       # Parameters :attribute => attribute, :klass_data => row_data
       custom_fields = @klass_info.custom_fields(attribute[:column_name], controller.action_name.to_sym)
       custom_fields_contain_a_replacement = @klass_info.custom_fields_contain_a_replacement(custom_fields)
+
       unless custom_fields_contain_a_replacement
         attribute_value_from_row = @klass_info.attribute_value_from_row(attribute, klass_data)
         formatted_output = attribute_value_from_row[1] ? "[#{attribute_value_from_row[0]}] #{attribute_value_from_row[1]}" : "#{attribute_value_from_row[0]}"
+
         unless (attribute[:association] && attribute[:association] == :belongs_to)
           return formatted_output
         else
@@ -65,21 +67,37 @@ module Crud
             end
           end
         end
+      else
+        ''.html_safe
       end
+
     end
 
     def render_custom_fields(attribute, klass_data, klass_info)
       out = ''
+
       custom_fields = klass_info.custom_fields(attribute[:column_name], controller.action_name.to_sym)
       custom_fields.each do |field|
         out += render field[:partial], {field[:record_data_parameter].to_sym => klass_data}.merge(field[:additional_partial_parameters])
         out += '<br/>'
       end
+
       out.html_safe
     end
 
     def render_attribute_value_and_custom_fields(attribute, klass_data, klass_info)
       (render_attribute_value(attribute, klass_data) + render_custom_fields(attribute, klass_data, klass_info)).html_safe
+    end
+
+    private
+
+    # Handler to send application URIs back to the application
+    def method_missing(method, *args, &block)
+      if (method.to_s.end_with?('_path') || method.to_s.end_with?('_url')) && main_app.respond_to?(method)
+        main_app.send(method, *args)
+      else
+        super
+      end
     end
 
   end

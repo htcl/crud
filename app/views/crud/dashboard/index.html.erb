@@ -1,7 +1,6 @@
+<%= stylesheet_link_tag "crud/dashboard", :media => "all" %>
+<%= javascript_include_tag "crud/dashboard" %>
 <h1>CRUD Dashboard</h1>
-<% if false %>
-  <p>Find me in app/views/crud/dashboard/index.html.erb</p>
-<% end %>
 <h2>Select the class you wish to manipulate</h2>
 <%= select_tag 'klass_list', options_for_select_tag, :prompt => 'Select a class' %><br/>
 <h2>Model path:</h2>

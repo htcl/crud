@@ -1,7 +1,7 @@
-require_dependency "crud/application_controller"
+require_dependency "crud/crud_base_controller"
 
 module Crud
-  class DashboardController < ApplicationController
+  class DashboardController < CrudBaseController
     before_filter :is_allowed_to_view?, :only => [:index]
     before_filter :get_klass_list
 

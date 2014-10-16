@@ -1,5 +1,9 @@
 module Crud
-  class ApplicationController < ActionController::Base
+  #class CrudBaseController < ActionController::Base
+  class CrudBaseController < ::Crud.parent_controller.constantize
+
+    helper ::Crud::CrudHelper
+
     # Make these methods available to views
     helper_method :is_allowed_to_view?
     helper_method :is_allowed_to_update?

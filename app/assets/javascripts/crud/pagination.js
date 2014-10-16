@@ -32,11 +32,10 @@ $(function() {
   function pagination_parameters()
   {
     return {
-      page: $("input#page").val(),
-      per_page: $("select#per_page").val(),
-      search: $("input#search").val(),
-      advanced_search: $("input#advanced_search").is(':checked')
+      page: $("#crud_pagination input#page").val(),
+      per_page: $("#crud_pagination select#per_page").val(),
+      search: $("#crud_search input#search").val(),
+      advanced_search: $("#crud_search input#advanced_search").is(':checked')
     };
   }
-
 });

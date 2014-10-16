@@ -1,4 +1,16 @@
-<div class="flickr_pagination" style="text-align: left; float: left; width: 75%;">
+<div style="clear: both;"/>
+<br />
+
+<div style="clear: both;"/>
+<% if is_allowed_to_update? %>
+  <%= link_to "New #{@klass_info[:name]}", new_path(:class_name => @klass_info[:name]) %>
+<% end %>
+
+<div style="clear: both;"/>
+<br />
+
+<div style="clear: both;"/>
+<div id="crud_pagination" class="flickr_pagination" style="text-align: left; float: left; width: 75%;">
   Items per page:
   <%= select_tag :per_page, options_for_select([5, 10, 25, 50, 100], (controller.params[:per_page] ? controller.params[:per_page].to_i : 10)) %>
   <br /><br />
@@ -10,7 +22,7 @@
   <%= page_entries_info @klass_data %>
   <br /><br />
 </div>
-<div style="text-align: right; float: right; width: 20%; min-width: 250px;">
+<div id="crud_search" style="text-align: right; float: right; width: 20%; min-width: 250px;">
   <%= form_tag '#', :id => 'search_form', :method => :get do %>
     Search:
     <%= text_field_tag :search, ((controller.params[:search].nil? || controller.params[:search].empty?) ? @search_prompt : controller.params[:search]),
@@ -22,7 +34,7 @@
     <%= image_submit_tag 'crud/search-icon.png', { :height => '16' } %>
     <br />
     <% if false %>
-      <%= check_box_tag :advanced_search, nil, ((controller.params[:advanced_search]=='true') ? true : false) %> Advanced search
+      <%= check_box_tag :crud_advanced_search, nil, ((controller.params[:advanced_search]=='true') ? true : false) %> <%= I18n.t(:advanced_search_prompt) %>
     <% end %>
   <% end %>
 </div>
@@ -95,10 +107,11 @@
 <% @klass_info.global_custom_fields(controller.action_name.to_sym).each do |field| %>
   <%= render field[:partial], {field[:record_data_parameter].to_sym => @klass_data}.merge(field[:additional_partial_parameters]) %><br/>
 <% end %>
-<div style="clear: both;"/>
 
+<div style="clear: both;"/>
 <% if is_allowed_to_update? %>
   <%= link_to "New #{@klass_info[:name]}", new_path(:class_name => @klass_info[:name]) %>
 <% end %>
+
 <div style="clear: both;"/>
 <br />

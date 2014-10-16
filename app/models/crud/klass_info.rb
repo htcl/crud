@@ -8,8 +8,8 @@ module Crud
       self[:namespace] = namespace_parts ? "::#{namespace_parts[1]}::" : ''
       self[:name_as_sym] = self[:name].gsub(/::/,'_').underscore.to_sym
       self[:class] = self[:name].constantize
-      self[:column_settings] = ::Crud.column_settings.select {|v| [self[:name], 'all'].include?(v[:class].to_s)}
-      self[:custom_fields] = ::Crud.custom_fields.select {|v| v[:class] == self[:name]}
+      self[:column_settings] = ::Crud.column_settings.select {|v| ["::#{self[:name]}", self[:name], 'all'].include?(v[:class].to_s)}
+      self[:custom_fields] = ::Crud.custom_fields.select {|v| ["::#{self[:name]}", self[:name]].include?(v[:class].to_s)}
       self[:custom_fields].each {|field| field[:additional_partial_parameters] ||= {}}
 
       if self[:class].respond_to?(:reflections)

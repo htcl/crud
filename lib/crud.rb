@@ -4,10 +4,16 @@ require "active_support/dependencies"
 
 module Crud
 
+  # The parent controller all engine controllers inherits from.
+  # Defaults to ApplicationController. This should be set early
+  # in the initialisation process and should be set to a string.
+  mattr_accessor :parent_controller
+  self.parent_controller = "ApplicationController"
+
   # Our host application root path
   # We set this when the engine is initialised
   # mattr_accessor :app_root
-  # @@app_root = 'xyz'
+  # self.app_root = 'xyz'
 
   # Allow clients to register paths containing models. The backend determines
   # acceptable model sources.
