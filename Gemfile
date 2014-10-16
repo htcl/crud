@@ -68,8 +68,9 @@ group :development do
   end
 
   if RUBY_VERSION.to_f > 1.9
-    gem 'debugger' unless defined?(JRUBY_VERSION)
+    gem 'debugger' unless (defined?(JRUBY_VERSION)||ENV['TRAVIS']=='true')
   end
+
   #if RUBY_VERSION.include?('1.9')
   #  gem 'ruby-debug19'
   #else
