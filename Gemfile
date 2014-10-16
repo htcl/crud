@@ -67,6 +67,15 @@ group :development do
     gem 'sqlite3'
   end
 
+  if RUBY_VERSION.to_f > 1.9
+    gem 'debugger' unless defined?(JRUBY_VERSION)
+  end
+  #if RUBY_VERSION.include?('1.9')
+  #  gem 'ruby-debug19'
+  #else
+  #  gem 'ruby-debug'
+  #end
+
   gem 'spork'
   gem 'spork-testunit'
   gem 'spork-rails'
@@ -86,7 +95,11 @@ group :development do
   gem 'rack-livereload'
 
   unless defined?(JRUBY_VERSION)
-    gem 'ruby-prof' #, '~> 0.10.8'
+    if RUBY_VERSION.include?('1.8')
+      gem 'ruby-prof', '~> 0.10.8'
+    else
+      gem 'ruby-prof'
+    end
   end
 
   case RbConfig::CONFIG['target_os']
@@ -118,15 +131,6 @@ end
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
-  if RUBY_VERSION.to_f > 1.9
-    gem 'debugger' unless defined?(JRUBY_VERSION)
-  end
-  #if RUBY_VERSION.include?('1.9')
-  #  gem 'ruby-debug19'
-  #else
-  #  gem 'ruby-debug'
-  #end
-
   #gem 'rcov', '~> 0.9.9'
   if RUBY_VERSION.include?('1.8')
     gem 'simplecov', '~> 0.8.2', :require => false, :group => :test

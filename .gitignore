@@ -29,7 +29,6 @@ catalog.xml
 
 # /db/
 /db/*.sqlite*
-/spec/dummy/db/*.sqlite*
 
 # vendor migrations
 #/spec/dummy/db/migrate/*
@@ -47,19 +46,18 @@ catalog.xml
 /coverage
 coverage.data
 
-test/dummy/db/*.sqlite3
-test/dummy/log/*.log
-test/dummy/tmp/
-test/dummy/.sass-cache
+/test/dummy/db/*.sqlite3
+/test/dummy/log/*.log
+/test/dummy/tmp/
+/test/dummy/.sass-cache
 
-spec/dummy/db/*.sqlite3
-spec/dummy/log/*.log
-spec/dummy/tmp/
-spec/dummy/.sass-cache
+/spec/dummy/db/*.sqlite3
+/spec/dummy/log/*.log
+/spec/dummy/tmp/
+/spec/dummy/.sass-cache
 
 # /log/
 /log/*.log
-/spec/dummy/log/*.log
 
 # /nbproject/
 /nbproject/private
