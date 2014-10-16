@@ -23,10 +23,3 @@ matrix:
 install: bundle install --without debug
 
 script: rake ci:all
-
-deploy:
-  provider: rubygems
-  api_key:
-    secure: Lqye2oKEatjnbc+aSPbYSp/zngJL4cUBaGZ6NlLqDajo7jMK71Sh52ZRCMvGIDZ11uH4lcPLTQKXZqUGh7s22nmZ61Zn71lWueaOvTOsdCffNTW4sHT8aLvfBXWJslWfsf4uBHSrDETuEaB0aZAVdpynrlkpID+PpaUAj3nxURc=
-  on:
-    tags: true
