@@ -22,8 +22,8 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "crud", "--main", "README.md"]
   s.extra_rdoc_files = ["CHANGELOG", "README.md", "lib/tasks/crud_tasks.rake", "lib/crud.rb"]
 
-  s.add_dependency 'rails', '~> 0'
-  s.add_dependency 'jquery-rails', '~> 0'
-  s.add_dependency 'jquery-ui-rails', '~> 0'
-  s.add_dependency 'will_paginate', '~> 0'
+  s.add_dependency 'rails'
+  s.add_dependency 'jquery-rails'
+  s.add_dependency 'jquery-ui-rails'
+  s.add_dependency 'will_paginate'
 end
