@@ -52,8 +52,12 @@ end
 
 # Limit some gem versions for 1.8.7 compatibility
 if RUBY_VERSION.include?('1.8')
+  gem 'i18n', '~> 0.6.9'
   gem 'nokogiri', '~> 1.5.9'
   gem 'rubyzip', '0.9.9'
+  gem 'highline', '~> 1.6.21'
+  gem 'execjs', '~> 2.0.2'
+  gem 'ruby-graphviz', '~> 1.0.9'
 end
 
 # Bundle gems which are only used in development mode:
@@ -85,14 +89,16 @@ group :development do
   gem 'spork-rails'
 
   if RUBY_VERSION.include?('1.8')
+    gem 'guard-rails', '~> 0.4.7'
+    gem 'guard-test', '~> 1.0.0'
     gem 'guard', '~> 1.8.2'
   else
+    gem 'guard-rails'
+    gem 'guard-test'
     gem 'guard'
   end
   gem 'guard-bundler'
-  gem 'guard-rails'
   gem 'guard-livereload'
-  gem 'guard-test'
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'guard-spork'
@@ -124,7 +130,12 @@ group :development do
   gem 'warbler'
   gem 'net-ssh'
   gem 'net-scp'
-  gem 'capistrano'
+
+  if RUBY_VERSION.include?('1.8')
+    gem 'capistrano', '~> 2.6.0'
+  else
+    gem 'capistrano'
+  end
 
   gem 'webrick', '1.3.1'
 
@@ -176,7 +187,7 @@ group :development, :test do
         # The latest version which is known to be usable on CentOS 5
         gem 'rmagick', '~> 1.15.17'
       else
-        gem 'rmagick', '~> 2.13.1'
+        gem 'rmagick', '~> 2.14.0'
       end
     else
       # HOWTO:

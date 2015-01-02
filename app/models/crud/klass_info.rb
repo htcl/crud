@@ -22,6 +22,11 @@ module Crud
           self[:attributes][i][:column_class_type] = self[:class].column_names[i].class
           self[:attributes][i][:column_data_type] = self[:class].columns[i].type
 
+          validators_for_attribute = self[:class].validators_on(self[:attributes][i][:column_name].to_sym).map(&:class)
+          self[:attributes][i][:required] = (Rails.version.to_f < 4.0) ?
+            false :
+            (validators_for_attribute.include?(ActiveModel::Validations::PresenceValidator) || validators_for_attribute.include?(ActiveRecord::Validations::PresenceValidator))
+
           # Initialise belongs_to associations
           reflection_value = belongs_to_reflection_values.select {
             |k| k.name == self[:attributes][i][:column_name].sub(/_id$/,'').to_sym
@@ -92,7 +97,8 @@ module Crud
       if (row)
         associated_attribute = associated_polymorphic_attribute(attribute)
         if associated_attribute && associated_attribute.length == 1 && row.attributes[associated_attribute[0][:column_name]]
-          associated_class = row.attributes[associated_attribute[0][:column_name]].constantize
+          associated_class_name = row.attributes[associated_attribute[0][:column_name]]
+          associated_class = associated_class_name.empty? ? nil : associated_class_name.constantize
         end
       end
       associated_class
