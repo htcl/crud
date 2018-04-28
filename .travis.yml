@@ -18,7 +18,6 @@ matrix:
     - rvm: '1.9'
     - rvm: '2.0'
     - rvm: '2.1'
-    - rvm: jruby-19mode
     - rvm: rbx
 
   fast_finish:
@@ -26,4 +25,4 @@ matrix:
 
 install: bundle install --without debug
 
-script: rake ci:all
+script: bundle exec rake ci:all
