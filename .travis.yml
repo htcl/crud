@@ -14,8 +14,11 @@ rvm:
 
 matrix:
   allow_failures:
-    - rvm: ruby-head
-    - rvm: jruby-head
+    - rvm: '1.8'
+    - rvm: '1.9'
+    - rvm: '2.0'
+    - rvm: '2.1'
+    - rvm: jruby-19mode
     - rvm: rbx
 
   fast_finish:

@@ -54,7 +54,7 @@ task :cucumber => 'app:cucumber'
 
 # ci_reporter tasks
 require 'rubygems'
-require 'ci/reporter/rake/test_unit' # use this if you’re using Test::Unit
+#require 'ci/reporter/rake/test_unit' # use this if you’re using Test::Unit
 require 'ci/reporter/rake/rspec'     # use this if you’re using RSpec
 require 'ci/reporter/rake/cucumber'  # use this if you're using Cucumber
 
