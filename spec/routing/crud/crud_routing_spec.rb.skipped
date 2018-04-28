@@ -1,7 +1,7 @@
 require "spec_helper"
 
 module Crud
-  describe CrudController do
+  describe CrudController, :type => :routing do
     describe "routing" do
 
       before(:each) { @routes = ::Crud::Engine.routes }

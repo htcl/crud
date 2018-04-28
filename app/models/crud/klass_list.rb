@@ -30,16 +30,17 @@ module Crud
     private
 
     def create_klasses_from_model_names(model_names)
-      model_names.inject([]) do |output, model_name|
-        klass_name = model_name
+      output = Array.new
+      klass_names = model_names.select {|model_name| (model_name.constantize.is_a? Class) && !(model_name == 'ApplicationRecord')}
+      klass_names.each do |klass_name|
         begin
-          klass = klass_name.constantize
-          output << "::#{klass}".constantize if klass_name == klass.to_s
+          klass = Object.const_get(klass_name)
+          output << klass if klass_name == klass.to_s
         rescue Exception => e
           Rails.logger.debug e.message
         end
-        output
       end
+      output
     end
 
     def remove_klasses_without_table(klasses)

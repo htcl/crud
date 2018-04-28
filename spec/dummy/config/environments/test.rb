@@ -37,6 +37,12 @@ Dummy::Application.configure do
   # Raise exception on mass assignment protection for Active Record models
   # config.active_record.mass_assignment_sanitizer = :strict
 
+  # Run tests in random order to surface order dependencies. If you find an
+  # order dependency and want to debug it, you can fix the order by providing
+  # the seed, which is printed after each run.
+  #     --seed 1234
+  config.active_support.test_order = :random
+
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 end

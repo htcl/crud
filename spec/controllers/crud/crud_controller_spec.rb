@@ -19,13 +19,18 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 module Crud
-  describe CrudController do
+  describe CrudController, :type => :controller do
+    routes { ::Crud::Engine.routes }
+
+    #def setup
+    #  @routes = ::Crud::Engine.routes
+    #end
 
     # This should return the minimal set of attributes required to create a valid
     # User. As you add validations to User, be sure to
     # update the return value of this method accordingly.
     def valid_attributes
-      FactoryGirl.attributes_for(:user)
+      FactoryBot.attributes_for(:user)
     end
 
     # This should return the minimal set of values that should be in the session
@@ -38,31 +43,35 @@ module Crud
     describe "GET index" do
       it "assigns all users as @users" do
         user = User.create! valid_attributes
-        get :index, {:class_name => 'User', :use_route => :crud}, valid_session
-        assigns(:klass_data).should eq([user])
+        get :index, :params => {:class_name => 'User'}, :session => valid_session
+        #expect(response).to be_success
+        expect(assigns(:klass_data)).to eq([user])
       end
     end
 
     describe "GET show" do
       it "assigns the requested user as @user" do
         user = User.create! valid_attributes
-        get :show, {:class_name => 'User', :id => user.to_param, :use_route => :crud}, valid_session
-        assigns(:klass_data).should eq(user)
+        get :show, :params => {:class_name => 'User', :id => user.to_param}, :session => valid_session
+        #expect(response).to be_success
+        expect(assigns(:klass_data)).to eq(user)
       end
     end
 
     describe "GET new" do
       it "assigns a new user as @user" do
-        get :new, {:class_name => 'User', :use_route => :crud}, valid_session
-        assigns(:klass_data).should be_a_new(User)
+        get :new, :params => {:class_name => 'User'}, :session => valid_session
+        #expect(response).to be_success
+        expect(assigns(:klass_data)).to be_a_new(User)
       end
     end
 
     describe "GET edit" do
       it "assigns the requested user as @user" do
         user = User.create! valid_attributes
-        get :edit, {:class_name => 'User', :id => user.to_param, :use_route => :crud}, valid_session
-        assigns(:klass_data).should eq(user)
+        get :edit, :params => {:class_name => 'User', :id => user.to_param}, :session => valid_session
+        #expect(response).to be_success
+        expect(assigns(:klass_data)).to eq(user)
       end
     end
 
@@ -70,35 +79,40 @@ module Crud
       describe "with valid params" do
         it "creates a new User" do
           expect {
-            post :create, {:class_name => 'User', :user => valid_attributes, :use_route => :crud}, valid_session
-          }.to change(User, :count).by(1)
+            post :create, :params => {:class_name => 'User', :user => valid_attributes}, :session => valid_session
+          }.to change { User.count }.by(1)
+          #expect(response).to be_success
         end
 
         it "assigns a newly created user as @user" do
-          post :create, {:class_name => 'User', :user => valid_attributes, :use_route => :crud}, valid_session
-          assigns(:klass_data).should be_a(User)
-          assigns(:klass_data).should be_persisted
+          post :create, :params => {:class_name => 'User', :user => valid_attributes}, :session => valid_session
+          #expect(response).to be_success
+          expect(assigns(:klass_data)).to be_a(User)
+          expect(assigns(:klass_data)).to be_persisted
         end
 
         it "redirects to the created user" do
-          post :create, {:class_name => 'User', :user => valid_attributes, :use_route => :crud}, valid_session
-          response.should redirect_to( show_path(:class_name => 'User', :id => User.last.id) )
+          post :create, :params => {:class_name => 'User', :user => valid_attributes}, :session => valid_session
+          expect(response).to redirect_to( show_path(:class_name => 'User', :id => User.last.id) )
+          #expect(response).to be_success
         end
       end
 
       describe "with invalid params" do
         it "assigns a newly created but unsaved user as @user" do
           # Trigger the behaviour that occurs when invalid params are submitted
-          User.any_instance.stub(:save).and_return(false)
-          post :create, {:class_name => 'User', :user => { "username" => nil }, :use_route => :crud}, valid_session
-          assigns(:klass_data).should be_a_new(User)
+          allow_any_instance_of(User).to receive(:save).and_return(false)
+          post :create, :params => {:class_name => 'User', :user => { "username" => nil }}, :session => valid_session
+          #expect(response).to be_success
+          expect(assigns(:klass_data)).to be_a_new(User)
         end
 
         it "re-renders the 'new' template" do
           # Trigger the behaviour that occurs when invalid params are submitted
-          User.any_instance.stub(:save).and_return(false)
-          post :create, {:class_name => 'User', :user => { "username" => nil }, :use_route => :crud}, valid_session
-          response.should render_template("new")
+          allow_any_instance_of(User).to receive(:save).and_return(false)
+          post :create, :params => {:class_name => 'User', :user => { "username" => nil }}, :session => valid_session
+          #expect(response).to be_success
+          expect(response).to render_template("new")
         end
       end
     end
@@ -111,20 +125,23 @@ module Crud
           # specifies that the User created on the previous line
           # receives the :update_attributes message with whatever params are
           # submitted in the request.
-          User.any_instance.should_receive(:update_attributes).with({ "username" => "MyString" })
-          put :update, {:class_name => 'User', :id => user.to_param, :user => { "username" => "MyString" }, :use_route => :crud}, valid_session
+          allow_any_instance_of(User).to receive(:update_attributes).with({ "username" => "MyString" })
+          put :update, :params => {:class_name => 'User', :id => user.to_param, :user => { "username" => "MyString" }}, :session => valid_session
+          #expect(response).to be_success
         end
 
         it "assigns the requested user as @user" do
           user = User.create! valid_attributes
-          put :update, {:class_name => 'User', :id => user.to_param, :user => valid_attributes, :use_route => :crud}, valid_session
-          assigns(:klass_data).should eq(user)
+          put :update, :params => {:class_name => 'User', :id => user.to_param, :user => valid_attributes}, :session => valid_session
+          #expect(response).to be_success
+          expect(assigns(:klass_data)).to eq(user)
         end
 
         it "redirects to the user" do
           user = User.create! valid_attributes
-          put :update, {:class_name => 'User', :id => user.to_param, :user => valid_attributes, :use_route => :crud}, valid_session
-          response.should redirect_to( show_path(:class_name => 'User', :id => user.to_param) )
+          put :update, :params => {:class_name => 'User', :id => user.to_param, :user => valid_attributes}, :session => valid_session
+          expect(response).to redirect_to( show_path(:class_name => 'User', :id => user.to_param) )
+          #expect(response).to be_success
         end
       end
 
@@ -132,17 +149,19 @@ module Crud
         it "assigns the user as @user" do
           user = User.create! valid_attributes
           # Trigger the behaviour that occurs when invalid params are submitted
-          User.any_instance.stub(:save).and_return(false)
-          put :update, {:class_name => 'User', :id => user.to_param, :user => { "username" => nil }, :use_route => :crud}, valid_session
-          assigns(:klass_data).should eq(user)
+          allow_any_instance_of(User).to receive(:save).and_return(false)
+          put :update, :params => {:class_name => 'User', :id => user.to_param, :user => { "username" => nil }}, :session => valid_session
+          #expect(response).to be_success
+          expect(assigns(:klass_data)).to eq(user)
         end
 
         it "re-renders the 'edit' template" do
           user = User.create! valid_attributes
           # Trigger the behaviour that occurs when invalid params are submitted
-          User.any_instance.stub(:save).and_return(false)
-          put :update, {:class_name => 'User', :id => user.to_param, :user => { "username" => nil }, :use_route => :crud}, valid_session
-          response.should render_template("edit")
+          allow_any_instance_of(User).to receive(:save).and_return(false)
+          put :update, :params => {:class_name => 'User', :id => user.to_param, :user => { "username" => nil }}, :session => valid_session
+          #expect(response).to be_success
+          expect(response).to render_template("edit")
         end
       end
     end
@@ -151,14 +170,16 @@ module Crud
       it "destroys the requested user" do
         user = User.create! valid_attributes
         expect {
-          delete :destroy, {:class_name => 'User', :id => user.to_param, :use_route => :crud}, valid_session
+          delete :destroy, :params => {:class_name => 'User', :id => user.to_param}, :session => valid_session
         }.to change(User, :count).by(-1)
+        #expect(response).to be_success
       end
 
       it "redirects to the users list" do
         user = User.create! valid_attributes
-        delete :destroy, {:class_name => 'User', :id => user.to_param, :use_route => :crud}, valid_session
-        response.should redirect_to(index_path(:class_name => 'User'))
+        delete :destroy, :params => {:class_name => 'User', :id => user.to_param}, :session => valid_session
+        expect(response).to redirect_to(index_path(:class_name => 'User'))
+        #expect(response).to be_success
       end
     end
 

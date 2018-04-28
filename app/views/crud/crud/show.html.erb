@@ -1,5 +1,13 @@
 <%= render 'error_messages', :model => @klass_data %>
 
+<% if is_allowed_to_update? %>
+  <%= link_to 'Edit', edit_path(:class_name => @klass_info[:name], :id => @klass_data.id) %> |
+<% end %>
+<%= link_to "Back (List all #{@klass_info[:name].pluralize})", index_path(:class_name => @klass_info[:name]) %>
+
+<br/>
+<br/>
+
 <% @visible_attributes.each do |attribute| %>
   <p>
     <b><%= label(@klass_info[:name].to_sym, attribute[:column_name].to_sym) %>:</b>

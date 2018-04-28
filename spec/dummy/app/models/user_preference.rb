@@ -1,8 +1,8 @@
-class UserPreference < ActiveRecord::Base
+class UserPreference < ApplicationRecord
   belongs_to :user
 
-  attr_accessible :key, :value
-  attr_accessible :user, :user_id
+  #attr_accessible :key, :value
+  #attr_accessible :user, :user_id
 
   validates :user, :presence => true
 

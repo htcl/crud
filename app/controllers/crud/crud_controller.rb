@@ -2,12 +2,22 @@ require_dependency "crud/crud_base_controller"
 
 module Crud
   class CrudController < CrudBaseController
-    around_filter :catch_not_found
 
-    before_filter :is_allowed_to_view?, :only => [:index, :show]
-    before_filter :is_allowed_to_update?, :only => [:new, :create, :edit, :update, :destroy, :delete]
-    before_filter :get_klass_info_from_params
-    before_filter :get_visible_attributes
+    if Rails.version.to_f >= 5.1
+      around_action :catch_not_found
+
+      before_action :get_klass_data, :only => [:show, :edit, :update, :destroy, :delete]
+      before_action :get_klass_info_from_params
+      before_action :get_visible_attributes
+    else
+      around_filter :catch_not_found
+
+      before_filter :is_allowed_to_view?, :only => [:index, :show]
+      before_filter :is_allowed_to_update?, :only => [:new, :create, :edit, :update, :destroy, :delete]
+      before_filter :get_klass_data, :only => [:show, :edit, :update, :destroy, :delete]
+      before_filter :get_klass_info_from_params
+      before_filter :get_visible_attributes
+    end
 
     # GET
     def index
@@ -43,8 +53,6 @@ module Crud
 
     # GET
     def show
-      @klass_data = @klass_info[:class].find(params[:id])
-
       respond_to do |format|
         format.html # index.html.erb
         format.json { render :json => @klass_data }
@@ -65,12 +73,11 @@ module Crud
 
     # GET
     def edit
-      @klass_data = @klass_info[:class].find(params[:id])
     end
 
     # POST
     def create
-      @klass_data = @klass_info[:class].new(params[@klass_info[:name_as_sym]])
+      @klass_data = @klass_info[:class].new(klass_params)
 
       respond_to do |format|
         if @klass_data.save
@@ -87,10 +94,8 @@ module Crud
 
     # PUT
     def update
-      @klass_data = @klass_info[:class].find(params[:id])
-
       respond_to do |format|
-        if @klass_data.update_attributes(params[@klass_info[:name_as_sym]])
+        if @klass_data.update_attributes(klass_params)
           format.html { redirect_to show_path(:class_name => @klass_info[:name], :id => @klass_data.id), :notice => "#{@klass_info[:name]} was successfully updated" }
           format.json { head :no_content }
           format.xml  { head :ok }
@@ -104,7 +109,6 @@ module Crud
 
     # DELETE
     def delete
-      @klass_data = @klass_info[:class].find(params[:id])
       @klass_data.delete
 
       respond_to do |format|
@@ -116,7 +120,6 @@ module Crud
 
     # DELETE
     def destroy
-      @klass_data = @klass_info[:class].find(params[:id])
       @klass_data.destroy
 
       respond_to do |format|
@@ -126,7 +129,24 @@ module Crud
       end
     end
 
-    private
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def get_klass_data
+      @klass_info = get_klass_info_from_params
+      @klass_data = @klass_info[:class].find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def klass_params
+      visible_attributes = Array.new
+      get_visible_attributes.each do |attribute|
+        visible_attributes << attribute[:column_name].to_sym
+      end
+      params.fetch(@klass_info[:name_as_sym], visible_attributes)
+
+      # Allow all visible attributes to be written to (bypass mass-assignment protection)
+      params.require(@klass_info[:name_as_sym]).permit(visible_attributes)
+    end
 
     def get_klass_info_from_params
       if params[:class_name]

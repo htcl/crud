@@ -1,3 +1,5 @@
+require 'rails'
+
 module Crud
   class Engine < ::Rails::Engine
     isolate_namespace Crud
@@ -11,10 +13,10 @@ module Crud
     #config.autoload_paths << File.expand_path("../validators", __FILE__)
 
     config.generators do |g|
-      g.test_framework :rspec, :fixture_replacement => :factory_girl, :views => false, :helper => true
+      g.test_framework :rspec, :fixture_replacement => :factory_bot, :views => false, :helper => true
       g.view_specs false
       g.helper_specs true
-      g.fixture_replacement :factory_girl, :dir => 'spec/factories'
+      g.fixture_replacement :factory_bot, :dir => 'spec/factories'
     end
 
     # Load translations from config/locales/*.rb,yml are auto loaded.

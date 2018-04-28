@@ -1,12 +1,17 @@
 require 'spec_helper'
 
 module Crud
-  describe DashboardController do
+  describe DashboardController, :type => :controller do
+    routes { ::Crud::Engine.routes }
+
+    #def setup
+    #  @routes = ::Crud::Engine.routes
+    #end
 
     describe "GET 'index'" do
       it "returns http success" do
-        get 'index', {:use_route => :crud}
-        response.should be_success
+        get 'index'
+        expect(response).to be_success
       end
     end
 

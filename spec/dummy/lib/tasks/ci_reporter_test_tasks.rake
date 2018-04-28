@@ -15,35 +15,23 @@ namespace :ci do
   end
 
   desc "Run unit tests within the ci_reporter environment"
-  #task :unit_tests  => %w(test)
-  task :unit_tests  => %w(ci:setup:testunit test)
-  #task :unit_tests  => %w(ci:setup:testunit test rcov:test)
+  task :unit_tests  => %w(test)
+  #task :unit_tests  => %w(ci:setup:testunit test)
 
   desc "Run functional test/rspecs within the ci_reporter environment"
   #task :functional_tests  => %w(spec)
   task :functional_tests  => %w(ci:setup:rspec spec)
-  #task :functional_tests  => %w(ci:setup:rspec spec:rcov)
-  #task :functional_tests  => %w(ci:setup:rspec rcov:rspec)
 
   desc "Run integration tests/features within the ci_reporter environment"
   #task :integration_tests  => %w(cucumber)
-  #task :integration_tests  => %w(ci:setup:cucumber cucumber) # does not work
-  task :integration_tests do
-    Rake::Task['ci:setup:cucumber_report_cleanup'].invoke
-    #ENV['CUCUMBER_OPTS'] = "#{ENV['CUCUMBER_OPTS']} --require features"
-    ENV['CUCUMBER_OPTS'] = "#{ENV['CUCUMBER_OPTS']} --format CI::Reporter::Cucumber"
-    Rake::Task['cucumber'].invoke
-  end
-  #task :integration_tests  => %w(rcov:cucumber)
+  task :integration_tests  => %w(ci:setup:cucumber cucumber)
 
   desc "Run all tests within the ci_reporter environment"
   task :all_tests do
-    system('bundle exec rake db:drop db:create db:migrate RAILS_ENV=test')
-    unless RbConfig::CONFIG['host_os'] =~ /mswin|mingw/
-      system('bundle exec rake app:ci:functional_tests app:ci:integration_tests RAILS_ENV=test')
-    else
-      system('bundle exec rake app:ci:functional_tests RAILS_ENV=test')
-    end
+    #system('bundle exec rails db:environment:set RAILS_ENV=test')
+    system('DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:drop db:create db:migrate RAILS_ENV=test')
+    #system('DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake app:ci:unit_tests app:ci:functional_tests app:ci:integration_tests RAILS_ENV=test')
+    system('DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake app:ci:functional_tests app:ci:integration_tests RAILS_ENV=test')
   end
 
   desc 'Deletes RCov artifacts'
@@ -54,4 +42,5 @@ namespace :ci do
 
   desc "Clean and run all tests within the ci_reporter environment"
   task :all => [:clear, :install_vendor_migrations, :all_tests]
+  #task :all => [:clear, :all_tests]
 end

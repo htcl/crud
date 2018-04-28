@@ -18,6 +18,7 @@
 
 # Initialise SimpleCov
 require 'simplecov'
+require 'rails-controller-testing'
 
 require 'rubygems'
 require 'spork'
@@ -65,9 +66,9 @@ Spork.prefork do
   require File.expand_path("../../spec/dummy/config/environments/#{::Rails.env}.rb", __FILE__)
 
   require 'rspec/rails'
-  require 'rspec/autorun'
+  #require 'rspec/autorun'
 
-  require 'factory_girl_rails'
+  require 'factory_bot_rails'
   require 'database_cleaner'
   #require 'shoulda/matchers/integrations/rspec'
 
@@ -77,6 +78,10 @@ Spork.prefork do
   # in spec/support/ and its subdirectories.
   # Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
   Dir[File.join(ENGINE_RAILS_ROOT, 'spec/support/**/*.rb')].each {|f| require f }
+
+  # Load factories.
+  # Dir[Rails.root.join("spec/dummy/factories/**/*.rb")].each {|f| require f}
+  Dir[File.join(ENGINE_RAILS_ROOT, 'spec/dummy/spec/factories/**/*.rb')].each {|f| require f }
 
   RSpec.configure do |config|
     # ## Mock Framework

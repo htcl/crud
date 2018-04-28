@@ -11,7 +11,7 @@ require 'spec_helper'
 #   end
 # end
 module Crud
-  describe DashboardHelper do
-    pending "add some examples to (or delete) #{__FILE__}"
+  describe DashboardHelper, :type => :helper do
+    #pending "add some examples to (or delete) #{__FILE__}"
   end
 end

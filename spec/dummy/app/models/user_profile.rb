@@ -1,9 +1,9 @@
-class UserProfile < ActiveRecord::Base
+class UserProfile < ApplicationRecord
   belongs_to :user
 
-  attr_accessible :forename
-  attr_accessible :surname
-  attr_accessible :user, :user_id
+  #attr_accessible :forename
+  #attr_accessible :surname
+  #attr_accessible :user, :user_id
 
   validates :user, :presence => true
 

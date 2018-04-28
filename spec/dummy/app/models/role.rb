@@ -1,7 +1,7 @@
-class Role < ActiveRecord::Base
+class Role < ApplicationRecord
   has_and_belongs_to_many :users
 
-  attr_accessible :name
+  #attr_accessible :name
 
   def to_s
     name

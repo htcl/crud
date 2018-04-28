@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-# Declare your gem's dependencies in core.gemspec.
+# Declare your gem's dependencies in crud.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
 gemspec
@@ -9,7 +9,6 @@ if RUBY_VERSION.include?('1.8')
   gem 'rails', '~> 3.2.14'
 else
   gem 'rails'
-  gem 'protected_attributes'
 end
 
 if defined?(JRUBY_VERSION)
@@ -62,7 +61,7 @@ end
 
 # Bundle gems which are only used in development mode:
 group :debug do
-  if RUBY_VERSION.to_f > 1.9
+  if RUBY_VERSION.to_f > 1.9 && RUBY_VERSION.to_f < 2.3
     gem 'debugger' unless defined?(JRUBY_VERSION)
   end
 
@@ -84,9 +83,9 @@ group :development do
     gem 'sqlite3'
   end
 
-  gem 'spork'
-  gem 'spork-testunit'
-  gem 'spork-rails'
+  #gem 'spork-rails'
+  #gem 'spork-testunit'
+  #gem 'spork'
 
   if RUBY_VERSION.include?('1.8')
     gem 'guard-rails', '~> 0.4.7'
@@ -155,50 +154,38 @@ group :development, :test do
     gem 'shoulda-matchers'
   end
   gem 'simplecov-rcov', :require => false, :group => :test
+
   if RUBY_VERSION.include?('1.8')
     gem 'rspec-rails', '~> 2.14.0'
   elsif RUBY_VERSION.include?('1.9')
     gem 'rspec-rails', '~> 2.14.0'
   else
+    gem 'rails-controller-testing'
     gem 'rspec-rails'
   end
-  if RUBY_VERSION.include?('1.8')
-    gem 'factory_girl_rails', '~> 1.7.0'
-    gem 'capybara', '~> 2.0.3'
-  else
-    gem 'factory_girl_rails'
-    gem 'capybara'
-  end
-  gem 'faker'
-  gem 'database_cleaner'
-  #gem 'email_spec'
 
   gem 'cucumber-rails', :require => false
   gem 'cucumber'
   gem 'launchy'
-  gem 'ci_reporter', '~> 1.9.2'
 
-  # RMagick
-  if defined?(JRUBY_VERSION)
-    gem 'rmagick4j', '~> 0.3.7'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  #gem 'email_spec'
+  gem 'database_cleaner'
+
+  if RUBY_VERSION.include?('1.8')
+    gem 'capybara', '~> 2.0.3'
   else
-    if RbConfig::CONFIG['target_os'] == 'linux'
-      if `cat /etc/issue`.include? 'CentOS release 5'
-        # The latest version which is known to be usable on CentOS 5
-        gem 'rmagick', '~> 1.15.17'
-      else
-        gem 'rmagick', '~> 2.14.0'
-      end
-    else
-      # HOWTO:
-      # 1) Install ImageMagick in a top-level directory
-      # 2) Set environment variables
-      #    set CPATH=C:\ImageMagick-6.7.3-Q16\include
-      #    set LIBRARY_PATH=C:\ImageMagick-6.7.3-Q16\lib
-      # 3) gem install rmagick -v 2.13.1
-      gem 'rmagick', '~> 2.13.1'
-    end
+    gem 'capybara'
   end
+
+  gem "selenium-webdriver"
+
+  #gem 'ci_reporter' #, '~> 1.9.2'
+  #gem 'ci_reporter_test_unit'
+  gem 'ci_reporter_minitest'
+  gem 'ci_reporter_rspec'
+  gem 'ci_reporter_cucumber'
 
   ## Other test gems should be added here ##
 end

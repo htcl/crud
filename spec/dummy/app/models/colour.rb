@@ -1,5 +1,5 @@
-class Colour < ActiveRecord::Base
-  attr_accessible :name, :colour_code
+class Colour < ApplicationRecord
+  #attr_accessible :name, :colour_code
 
   def to_s
     name
