@@ -165,5 +165,6 @@ module Crud
     rescue ActiveRecord::RecordNotFound
       redirect_to back_url, :flash => { :error => "#{@klass_info[:name]} record with id=[#{params[:id]}] not found" }
     end
+
   end
 end

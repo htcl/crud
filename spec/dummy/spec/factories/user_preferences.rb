@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :user_preference do
-    user nil
-    key "MyString"
-    value "MyString"
+    user { nil }
+    key { "MyString" }
+    value { "MyString" }
   end
 end

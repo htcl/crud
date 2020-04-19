@@ -1,6 +1,7 @@
 module Crud
   #class CrudBaseController < ActionController::Base
-  class CrudBaseController < ::Crud.parent_controller.constantize
+  #class CrudBaseController < ::Crud.parent_controller.constantize
+  class CrudBaseController < ApplicationController
 
     helper ::Crud::CrudHelper
 

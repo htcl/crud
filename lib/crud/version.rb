@@ -11,7 +11,7 @@ module Crud
   module VERSION
     MAJOR = 0
     MINOR = 1
-    PATCH = 0
+    PATCH = 5
     PRE   = nil
 
     STRING = [MAJOR, MINOR, PATCH, PRE].compact.join(".")

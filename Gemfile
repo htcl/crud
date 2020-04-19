@@ -187,6 +187,16 @@ group :development, :test do
   gem 'ci_reporter_rspec'
   gem 'ci_reporter_cucumber'
 
+  gem 'rubocop', :require => false
+  gem 'rubocop-performance', :require => false
+  gem 'rubocop-rspec', :require => false
+
+  if RUBY_VERSION.include?('2.4')
+    gem 'psych', '~> 2.2'
+  end
+
+  gem 'brakeman', :require => false
+
   ## Other test gems should be added here ##
 end
 
